@@ -1,6 +1,6 @@
 {
 	"name": "directus-extension-parser",
-	"description": "Please enter a description for your extension",
+	"description": "This extension allow you to parse a string (for ex: key1=value1;key2=value2;) so that update keys and values is much easier.",
 	"icon": "extension",
 	"version": "1.0.0",
 	"keywords": [
