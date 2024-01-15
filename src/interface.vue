@@ -1,15 +1,15 @@
 <template>
 	<div class="container">
 	  <div class="containerKeyValue" v-for="(pair, index) in pairs" :key="index">
-		<label>Key = Valeur</label>
+		<label>{{ $t('key') }} = {{ $t('value') }}</label>
 		<input v-model="pair.key" @input="updatePairs" />
 		<input v-model="pair.value" @input="updatePairs" />
-		<button class="customButton" @click="removePair(index)">Remove</button>
+		<button class="customButton" @click="removePair(index)">{{ $t('remove_item') }}</button>
 	  </div>
-	  <button class="customButton" @click="addPair">Add Pair</button>
+	  <button class="customButton" @click="addPair">{{ $t('add_field') }}</button>
   
 	  <div>
-		<strong>Compiled String:</strong> {{ compiledString }}
+		<strong>{{ $t('string') }}:</strong> {{ compiledString }}
 	  </div>
 	</div>
   </template>
@@ -66,17 +66,47 @@
   };
   </script>
   
-  <style>
-  .customButton {
-	border: 1px solid white;
-	border-radius: 5px;
-	padding: .25rem .5rem;
-	transition: all .3s ease-in-out;
+  <style scoped>
+  input {
+	padding: calc(var(--theme--form--field--input--padding) / 2);
+    padding-top: 0;
+    padding-bottom: 0;
+    color: var(--v-input-color, var(--theme--form--field--input--foreground));
+    font-family: var(--v-input-font-family, var(--theme--fonts--sans--font-family));
+    background-color: var(--v-input-background-color, var(--theme--form--field--input--background));
+    border: var(--theme--border-width) solid var(--v-input-border-color, var(--theme--form--field--input--border-color));
+    border-radius: var(--v-input-border-radius, var(--theme--border-radius));
+    transition: var(--fast) var(--transition);
+    transition-property: border-color,box-shadow;
+    box-shadow: var(--theme--form--field--input--box-shadow);
   }
-  .customButton:hover {
-	background-color: white;
-	border-color: black;
-	color: black;
+
+  input:hover {
+	--arrow-color: var(--v-input-border-color-hover, var(--theme--form--field--input--border-color-hover));
+    color: var(--v-input-color);
+    background-color: var(--theme--form--field--input--background);
+    border-color: var(--v-input-border-color-hover, var(--theme--form--field--input--border-color-hover));
+    box-shadow: var(--theme--form--field--input--box-shadow-hover);
+  }
+
+  input:focus-within, button:focus, button:hover {
+	--arrow-color: var(--v-input-border-color-hover, var(--theme--form--field--input--border-color-hover));
+    color: var(--v-input-color);
+    background-color: var(--theme--form--field--input--background);
+    border-color: var(--v-input-border-color-focus, var(--theme--form--field--input--border-color-focus));
+    box-shadow: var(--theme--form--field--input--box-shadow-focus);
+  }
+  
+  button {
+    color: var(--v-input-color, var(--theme--form--field--input--foreground));
+    font-family: var(--v-input-font-family, var(--theme--fonts--sans--font-family));
+    background-color: var(--v-input-background-color, var(--theme--form--field--input--background));
+    border: var(--theme--border-width) solid var(--v-input-border-color, var(--theme--form--field--input--border-color));
+    border-radius: var(--v-input-border-radius, var(--theme--border-radius));
+    transition: var(--fast) var(--transition);
+    transition-property: border-color,box-shadow;
+    box-shadow: var(--theme--form--field--input--box-shadow);
+	padding: .25rem .5rem;
   }
   .container {
 	display: flex;
@@ -88,6 +118,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+	align-items: center;
 	gap: 1rem;
   }
   </style>
