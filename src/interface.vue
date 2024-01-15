@@ -3,7 +3,6 @@
 		<v-notice type="danger" v-if="hasError">
 			<ul>
 				<li v-if="hasEmptyPair">{{ $t('validationError.nempty') }}</li>
-				<li v-if="hasNotValidPair">{{ $t('validationError.ncontains', {substring: "';' '='"}) }}</li>
 			</ul>
 		</v-notice>
 		<div class="containerKeyValue" v-for="(pair, index) in pairs" :key="index">
@@ -13,7 +12,7 @@
 			<!-- <button class="customButton" @click="removePair(index)"></button> -->
 			<v-button small outlined @click="removePair(index)"><v-icon name="delete" />{{ $t('remove_item') }}</v-button>
 		</div>
-		<v-button small @click="addPair" :disabled="hasEmptyPair || hasNotValidPair"><v-icon name="add" />{{ $t('add_field') }}</v-button>
+		<v-button small @click="addPair" :disabled="hasError"><v-icon name="add" />{{ $t('add_field') }}</v-button>
 		<div>
 			<strong>{{ $t('string') }}:</strong> {{ compiledString }}
 		</div>
@@ -36,7 +35,7 @@ export default {
 	},
 	computed: {
 		hasError() {
-			return this.hasEmptyPair || this.hasNotValidPair;
+			return this.hasEmptyPair;
 		},
 		compiledString() {
 			return this.pairs
