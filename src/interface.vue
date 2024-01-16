@@ -50,15 +50,15 @@ export default {
 		},
 	},
 	methods: {
-			// Function to validate and set the property
-			validateAndSet(pair, property) {
+		// Function to validate and set the property
+		validateAndSet(pair, property) {
 			const sanitizedValue = this.sanitizeValue(pair[property]);
 			pair[property] = sanitizedValue;
 			this.updatePairs();
 		},
-			// Function to sanitize the value (remove invalid characters)
-			sanitizeValue(value) {
-			return value.replace(/[;=]/g, '');
+		// Function to sanitize the value (remove invalid characters)
+		sanitizeValue(value) {
+			return value.replace(/[;=\s]/g, '');
 		},
 		parsePairs() {
 			if (!this.value) return [];
@@ -81,8 +81,8 @@ export default {
 			this.pairs.splice(index, 1);
 			this.updatePairs();
 		},
-			// Function to check if a string contains invalid characters
-			containsInvalidChars(str) {
+		// Function to check if a string contains invalid characters
+		containsInvalidChars(str) {
 			return /[;=]/.test(str);
 		},
 	},
@@ -130,4 +130,5 @@ input:hover {
 	flex-wrap: nowrap;
 	align-items: center;
 	gap: 1rem;
-}</style>
+}
+</style>
