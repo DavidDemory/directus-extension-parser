@@ -13,6 +13,9 @@
 			<v-button small outlined @click="removePair(index)"><v-icon name="delete" />{{ $t('remove_item') }}</v-button>
 		</div>
 		<v-button small @click="addPair" :disabled="hasError"><v-icon name="add" />{{ $t('add_field') }}</v-button>
+		<div>
+			<strong>{{ $t('string') }}:</strong> {{ compiledString }}
+		</div>
 	</div>
 </template>
 
@@ -68,15 +71,11 @@ export default {
 			});
 		},
 		updatePairs() {
-			// Filtrer les paires vides
-			const nonEmptyPairs = this.pairs.filter(pair => pair.key !== '' && pair.value !== '');
-			// Construire la chaîne compilée sans les paires vides
-			const compiledString = nonEmptyPairs.map(pair => `${pair.key}=${pair.value}`).join(';') + ';';
 			// Émettre l'événement uniquement si la chaîne compilée n'est pas vide
-			if (compiledString == ';' || this.pairs.length === 0) {
+			if (this.compiledString == ';' || this.pairs.length === 0) {
 				this.$emit('input', null);
-			} else {
-				this.$emit('input', compiledString)
+			} else if(!this.hasEmptyPair) {
+				this.$emit('input', this.compiledString)
 			}
 		},
 		addPair() {
