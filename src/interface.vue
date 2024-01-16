@@ -38,9 +38,9 @@ export default {
 			return this.hasEmptyPair;
 		},
 		compiledString() {
-			return this.pairs
+			return this.pairs.length > 0 ? this.pairs
 				.map((pair) => `${pair.key}=${pair.value}`)
-				.join(';') + ';';
+				.join(';') + ';' : null;
 		},
 		hasEmptyPair() {
 			return this.pairs.some(pair => pair.key === '' || pair.value === '');
@@ -61,7 +61,7 @@ export default {
 			return value.replace(/[;=\s]/g, '');
 		},
 		parsePairs() {
-			if (!this.value) return [];
+			if (!this.value || this.value === '') return [];
 
 			const pairs = this.value.split(';').filter(Boolean);
 
@@ -71,7 +71,16 @@ export default {
 			});
 		},
 		updatePairs() {
-			this.$emit('input', this.compiledString);
+			// Filtrer les paires vides
+			const nonEmptyPairs = this.pairs.filter(pair => pair.key !== '' && pair.value !== '');
+			// Construire la chaîne compilée sans les paires vides
+			const compiledString = nonEmptyPairs.map(pair => `${pair.key}=${pair.value}`).join(';') + ';';
+			// Émettre l'événement uniquement si la chaîne compilée n'est pas vide
+			if (compiledString == ';' || this.pairs.length === 0) {
+				this.$emit('input', null);
+			} else {
+				this.$emit('input', compiledString)
+			}
 		},
 		addPair() {
 			this.pairs.push({ key: '', value: '' });
