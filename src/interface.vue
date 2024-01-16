@@ -9,13 +9,9 @@
 			<label>{{ $t('key') }} = {{ $t('value') }}</label>
 			<input v-model="pair.key" @input="validateAndSet(pair, 'key')" />
 			<input v-model="pair.value" @input="validateAndSet(pair, 'value')" />
-			<!-- <button class="customButton" @click="removePair(index)"></button> -->
 			<v-button small outlined @click="removePair(index)"><v-icon name="delete" />{{ $t('remove_item') }}</v-button>
 		</div>
 		<v-button small @click="addPair" :disabled="hasError"><v-icon name="add" />{{ $t('add_field') }}</v-button>
-		<div>
-			<strong>{{ $t('string') }}:</strong> {{ compiledString }}
-		</div>
 	</div>
 </template>
 
@@ -37,11 +33,6 @@ export default {
 		hasError() {
 			return this.hasEmptyPair;
 		},
-		compiledString() {
-			return this.pairs.length > 0 ? this.pairs
-				.map((pair) => `${pair.key}=${pair.value}`)
-				.join(';') + ';' : null;
-		},
 		hasEmptyPair() {
 			return this.pairs.some(pair => pair.key === '' || pair.value === '');
 		},
@@ -50,13 +41,11 @@ export default {
 		},
 	},
 	methods: {
-		// Function to validate and set the property
 		validateAndSet(pair, property) {
 			const sanitizedValue = this.sanitizeValue(pair[property]);
 			pair[property] = sanitizedValue;
 			this.updatePairs();
 		},
-		// Function to sanitize the value (remove invalid characters)
 		sanitizeValue(value) {
 			return value.replace(/[;=\s]/g, '');
 		},
@@ -73,13 +62,15 @@ export default {
 		updatePairs() {
 			// Filtrer les paires vides
 			const nonEmptyPairs = this.pairs.filter(pair => pair.key !== '' && pair.value !== '');
-			// Construire la chaîne compilée sans les paires vides
-			const compiledString = nonEmptyPairs.map(pair => `${pair.key}=${pair.value}`).join(';') + ';';
-			// Émettre l'événement uniquement si la chaîne compilée n'est pas vide
-			if (compiledString == ';' || this.pairs.length === 0) {
-				this.$emit('input', null);
+
+			// Émettre l'événement uniquement si des paires non vides existent
+			if (nonEmptyPairs.length > 0) {
+				// Construire la chaîne compilée sans les paires vides
+				const compiledString = nonEmptyPairs.map(pair => `${pair.key}=${pair.value}`).join(';') + ';';
+				this.$emit('input', compiledString);
 			} else {
-				this.$emit('input', compiledString)
+				// Si toutes les paires sont vides, émettre un événement avec une valeur nulle
+				this.$emit('input', null);
 			}
 		},
 		addPair() {
@@ -90,7 +81,6 @@ export default {
 			this.pairs.splice(index, 1);
 			this.updatePairs();
 		},
-		// Function to check if a string contains invalid characters
 		containsInvalidChars(str) {
 			return /[;=]/.test(str);
 		},
@@ -102,7 +92,7 @@ export default {
 	},
 };
 </script>
-  
+
 <style scoped>
 input {
 	padding: calc(var(--theme--form--field--input--padding) / 2);
