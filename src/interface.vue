@@ -6,7 +6,7 @@
 			</ul>
 		</v-notice>
 		<div class="containerKeyValue" v-for="(pair, index) in pairs" :key="index">
-			<label>{{ $t('key') }} = {{ $t('value') }}</label>
+			<!-- <label>{{ $t('key') }} = {{ $t('value') }}</label> -->
 			<input v-model="pair.key" @input="validateAndSet(pair, 'key')" />
 			<input v-model="pair.value" @input="validateAndSet(pair, 'value')" />
 			<!-- <button class="customButton" @click="removePair(index)"></button> -->
@@ -83,8 +83,10 @@ export default {
 			this.updatePairs();
 		},
 		removePair(index) {
-			this.pairs.splice(index, 1);
-			this.updatePairs();
+			if (window.confirm(this.$t('delete_are_you_sure'))) {
+				this.pairs.splice(index, 1);
+				this.updatePairs();
+			}
 		},
 		// Function to check if a string contains invalid characters
 		containsInvalidChars(str) {
