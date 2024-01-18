@@ -1,9 +1,7 @@
 <template>
 	<div class="container">
-		<v-notice type="danger" v-if="hasError">
-			<ul>
-				<li v-if="hasEmptyPair">{{ $t('validationError.nempty') }}</li>
-			</ul>
+		<v-notice type="info" v-if="hasError">
+			<span v-if="hasEmptyPair">{{ $t('validationError.nempty') }}</span>
 		</v-notice>
 		<div class="containerKeyValue" v-for="(pair, index) in pairs" :key="index">
 			<!-- <label>{{ $t('key') }} = {{ $t('value') }}</label> -->
