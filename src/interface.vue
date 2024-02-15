@@ -4,10 +4,8 @@
 			<span v-if="hasEmptyPair">{{ $t('validationError.nempty') }}</span>
 		</v-notice>
 		<div class="containerKeyValue" v-for="(pair, index) in pairs" :key="index">
-			<!-- <label>{{ $t('key') }} = {{ $t('value') }}</label> -->
 			<input v-model="pair.key" @input="validateAndSet(pair, 'key')" />
 			<input v-model="pair.value" @input="validateAndSet(pair, 'value')" />
-			<!-- <button class="customButton" @click="removePair(index)"></button> -->
 			<v-button small outlined @click="removePair(index)"><v-icon name="delete" />{{ $t('remove_item') }}</v-button>
 		</div>
 		<v-button small @click="addPair" :disabled="hasError"><v-icon name="add" />{{ $t('add_field') }}</v-button>
@@ -42,16 +40,12 @@ export default {
 		},
 		hasEmptyPair() {
 			return this.pairs.some(pair => pair.key === '' || pair.value === '');
-		},
-		hasNotValidPair() {
-			return this.pairs.some(pair => this.containsInvalidChars(pair.key) || this.containsInvalidChars(pair.value));
-		},
+		}
 	},
 	methods: {
 		// Function to validate and set the property
 		validateAndSet(pair, property) {
-			const sanitizedValue = this.sanitizeValue(pair[property]);
-			pair[property] = sanitizedValue;
+      pair[property] = this.sanitizeValue(pair[property]);
 			this.updatePairs();
 		},
 		// Function to sanitize the value (remove invalid characters)
