@@ -4,6 +4,9 @@ This interface allows you to parse a string (for ex: key1=value1;key2=value2;) s
 
 Your key / value pairs are saved as plain string
 
+## Choose your operator and separator
+You can choose the operator and the separator you want to use.
+
 ## Interface design
 ![Interface Screenshot](screenshot.png)
 
